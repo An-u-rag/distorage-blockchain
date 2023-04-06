@@ -3,6 +3,7 @@ App = {
     data: '',
     genhash: [],
     web3Provider: null,
+    socket: null,
     crytpo: null,
     contracts: {},
     account: '0x0',
@@ -39,7 +40,7 @@ App = {
       }
       web3 = new Web3(App.web3Provider);
       App.crypto = window.crypto || window.msCrypto;
-  
+      App.socket = io();
       return App.initContract();
     },
   
@@ -70,7 +71,7 @@ App = {
       })
       .on('data', function(event){
           console.log(event);
-          // App.render();
+          App.render();
       })
       .on('error', console.error);
       
