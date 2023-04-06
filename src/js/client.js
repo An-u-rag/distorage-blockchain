@@ -1,6 +1,10 @@
 
 App = {
+    data: '',
+    genhash: [],
     web3Provider: null,
+    socket: null,
+    crytpo: null,
     contracts: {},
     account: '0x0',
     isHost: false,
@@ -35,7 +39,8 @@ App = {
         App.web3Provider = new Web3.providers.HttpProvider('http://localhost:7545');
       }
       web3 = new Web3(App.web3Provider);
-  
+      App.crypto = window.crypto || window.msCrypto;
+      App.socket = io();
       return App.initContract();
     },
   
@@ -52,13 +57,23 @@ App = {
       // Connect provider to interact with contract
       App.listenForEvents();
       console.log("Init Contract")
-      return App.render();
+      App.render()
     },
   
     // Listen for events emitted from the contract
     listenForEvents: async function() {
       console.log("Listening")
       const instance = App.contracts.Storage
+
+      instance.events.initiateStorageEvent({
+        fromBlock: 'latest',
+        toBlock: 'latest'
+      })
+      .on('data', function(event){
+          console.log(event);
+          App.render();
+      })
+      .on('error', console.error);
       
     },
   
@@ -83,7 +98,8 @@ App = {
       storageInstance = App.contracts.Storage;
       hostCount = await storageInstance.methods.hostCount().call() // Check
       hostCount = parseInt(hostCount)
-      console.log("Host Count: ", hostCount)
+      overallDataCount = await storageInstance.methods.dataCount().call()
+      console.log("Data Count: ", overallDataCount)
   
       var candidatesResults = $("#candidatesResults");
       candidatesResults.empty();
@@ -101,11 +117,34 @@ App = {
           var candidateTemplate = "<tr><th>" + id + "</th><td>" + name + "</td><td>" + diskSpace + "</td></tr>"
           candidatesResults.append(candidateTemplate);
   
-          // // Render candidate ballot option
+          // Render candidate ballot option
           var candidateOption = "<option value='" + id + "' >" + id + "</ option>"
           candidatesSelect.append(candidateOption);
         });
       }
+
+      clientDataCount = await storageInstance.methods.clientDataCount(App.account).call()
+
+      if (clientDataCount > 0){
+
+        var dataResults = $("#dataResults");
+        dataResults.empty();
+    
+        for (var i = 0; i < clientDataCount; i++) {
+          dataHash = await storageInstance.methods.getClientData(App.account, i).call()
+          console.log("Data Gen Hash: ", dataHash)
+          storageInstance.methods.datas(dataHash).call().then(function(candidate) {
+            var genHash = candidate[0];
+            var hostid = candidate[2];
+    
+            // Render candidate Result
+            var candidateTemplate = "<tr><th>" + genHash + "</th><td>" + hostid + "</td><td>" + '<button type="button" class="btn" name="ping" onclick="App.auditHost()">Audit</button>' + "</td></tr>"
+            dataResults.append(candidateTemplate);
+          });
+        }
+      }
+
+
       isHost = await storageInstance.methods.isHost(App.account).call(); // check
       if (isHost) {
         $('form').hide();
@@ -114,19 +153,31 @@ App = {
       content.show();
     },
   
-    // selectHost: function() {
-    //   var candidateId = $('#candidatesSelect').val();
-    //   App.contracts.Storage.deploy().then(function(instance) {
-    //     // hash 
-    //     return instance.storeInHost(candidateId, { from: App.account });
-    //   }).then(function(result) {
-    //     // Wait for votes to update
-    //     $("#content").hide();
-    //     $("#loader").show();
-    //   }).catch(function(err) {
-    //     console.error(err);
-    //   });
-    // }
+    selectHost: function() {
+      App.data = $('#data').val()
+      var candidateId = $('#candidatesSelect').val();
+
+      // Check Null data or cadnidate id
+
+      const instance = App.contracts.Storage;
+      // hash 
+      const salt = App.crypto.randomUUID();
+      const genHash = web3.utils.soliditySha3(data, salt);
+      const size = App.data.length;
+      const interval = 60;
+      instance.methods.initiateStorage(candidateId, genHash, size, interval, salt).send({ from: App.account }, (error, hash) => {
+        console.log(hash);
+      })
+      .then(function(result) {
+        console.log(result)
+        // Loader displayed until transaction processed
+        // Listen for emit event from contract
+        $("#content").hide();
+        $("#loader").show();
+      }).catch(function(err) {
+        console.error(err);
+      });
+    }
   };
   
   $(function() {

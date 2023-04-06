@@ -21,7 +21,7 @@
     <div class="container" style="width: 650px;">
       <div class="row">
         <div class="col-lg-12">
-          <h1 class="text-center">Availale Hosts</h1>
+          <h1 class="text-center">Available Hosts</h1>
           <hr/>
           <br/>
           <div id="loader">
@@ -40,16 +40,33 @@
               </tbody>
             </table>
             <hr/>
-            <form onSubmit="App.selectHost(); return false;">
+            <form>
               <div class="form-group">
+                <label for="data">Data to Store: </label>
+                <input type="text" name="data" id="data">
+                <br>
                 <label for="candidatesSelect">Select Host</label>
                 <select class="form-control" id="candidatesSelect">
                 </select>
               </div>
-              <button type="submit" class="btn btn-primary">Select</button>
+              <button type="button" class="btn btn-primary" onclick="App.selectHost()">Select</button>
               <hr />
             </form>
             <p id="accountAddress" class="text-center"></p>
+            <hr/>
+            <br>
+            <br>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Data Genhash</th>
+                  <th scope="col">Host Id</th>
+                  <th scope="col">Audit</th>
+                </tr>
+              </thead>
+              <tbody id="dataResults">
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -59,6 +76,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@truffle/contract@4.3.5/dist/truffle-contract.js"></script>
     <script src="js/client.js"></script>

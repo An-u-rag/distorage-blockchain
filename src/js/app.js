@@ -1,6 +1,7 @@
 
 App = {
   web3Provider: null,
+  socket: null,
   contracts: {},
   account: '0x0',
   isHost: false,
@@ -35,7 +36,7 @@ App = {
       App.web3Provider = new Web3.providers.HttpProvider('http://localhost:7545');
     }
     web3 = new Web3(App.web3Provider);
-
+    App.socket = io();
     return App.initContract();
   },
 
