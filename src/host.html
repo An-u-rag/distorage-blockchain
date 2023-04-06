@@ -5,7 +5,57 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Add a Host</title>
+    <title>Host</title>
+    <style>
+      /* Set the background image */
+      body {
+          background-image: url('https://drive.google.com/uc?id=122rsxiyYL5pQ0yfcyGpHmQnks1lf0_LZ');
+          background-size: cover;
+          background-position: center;
+          background-attachment: fixed;
+          font-family: 'Montserrat', sans-serif;
+          color: white;
+          margin: 0;
+          padding: 0;
+      }
+
+      /* Style for the center element */
+      .center {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+      }
+
+      /* Style for the host and client links */
+      a {
+          display: inline-block;
+          padding: 10px;
+          margin: 5px;
+          border: none;
+          border-radius: 5px;
+          color: white;
+          background-color: #00ff62;
+          text-decoration: none;
+          font-size: 18px;
+          font-weight: bold;
+          cursor: pointer;
+      }
+
+      /* Style for the header */
+      h1 {
+          font-size: 48px;
+          margin-bottom: 20px;
+      }
+      h2 {
+          font-size: 48px;
+          margin-bottom: 20px;
+      }
+
+      /* Load the Montserrat font from Google Fonts */
+      @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+  </style>
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -18,30 +68,35 @@
     <![endif]-->
   </head>
   <body>
-    <div class="container" style="width: 650px;">
+    <div class="container" style="width: 350px;">
       <div class="row">
         <div class="col-lg-12">
           <div id="loader">
             <p class="text-center">Loading...</p>
           </div>
           <div id="content" style="display: none;">
-            <h2>RENT Your Storage</h2>
+            <br>
+            <br>
+            <br>
+            <br>
+            
+            <h2 style="color: white;">Rent Your Storage</h2>
 
             <form onSubmit="App.addHost(); return false;">
               <div class="form-group">
-                <label for="name">Name:</label><br>
-                <input type="text" id="name" name="name" value="John"><br>
-                <label for="port">Port:</label><br>
+                <label for="name" style="color: white;">Name:</label><br>
+                <input type="text" id="name" name="name" value="John"><br><br>
+                <label for="port" style="color: white;">Port:</label><br>
                 <input type="text" id="port" name="port" value="12345"><br><br>
-                <label for="ip">IP:</label><br>
+                <label for="ip" style="color: white;">IP:</label><br>
                 <input type="text" id="ip" name="ip" value="127.0.0.1"><br><br>
-                <label for="diskspace">DiskSpace:</label><br>
+                <label for="diskspace" style="color: white;">Disk Space:</label><br>
                 <input type="text" id="diskspace" name="diskspace" value="100"><br><br>
-                <button type="submit" class="btn btn-primary">Add Yourself</button>
+                <button type="submit" class="btn btn-primary" style="background-color: #00ff62; color: white;">Add Yourself</button>
               </div>
             </form> 
             <hr/>
-            <p id="accountAddress" class="text-center"></p>
+            <p id="accountAddress" class="text-center" style="color: white;"></p>
           </div>
         </div>
       </div>

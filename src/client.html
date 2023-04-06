@@ -5,7 +5,62 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Election Results</title>
+    <title>Client</title>
+    <style>
+      /* Set the background image */
+      body {
+          background-image: url('https://drive.google.com/uc?id=122rsxiyYL5pQ0yfcyGpHmQnks1lf0_LZ');
+          background-size: cover;
+          background-position: center;
+          background-attachment: fixed;
+          font-family: 'Montserrat', sans-serif;
+          color: white;
+          margin: 0;
+          padding: 0;
+      }
+
+      /* Style for the center element */
+      .center {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+      }
+
+
+      /* Style for the host and client links */
+      a {
+          display: inline-block;
+          padding: 10px;
+          margin: 5px;
+          border: none;
+          border-radius: 5px;
+          color: white;
+          background-color: #00ff62;
+          text-decoration: none;
+          font-size: 18px;
+          font-weight: bold;
+          cursor: pointer;
+      }
+
+      /* Style for the header */
+      h1 {
+          font-size: 48px;
+          margin-bottom: 20px;
+      }
+      h2 {
+          font-size: 48px;
+          margin-bottom: 20px;
+      }
+      .col-lg-12 {
+        padding-left: -30px;
+        margin-left: -330px
+      }
+
+      /* Load the Montserrat font from Google Fonts */
+      @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+  </style>
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -18,10 +73,10 @@
     <![endif]-->
   </head>
   <body>
-    <div class="container" style="width: 650px;">
+    <div class="container" style="width: 350px;" >
       <div class="row">
-        <div class="col-lg-12">
-          <h1 class="text-center">Available Hosts</h1>
+        <div class="col-lg-12" style="align-items: left;">
+          <h1 class="text-center" style="color: white;">Available Hosts</h1>
           <hr/>
           <br/>
           <div id="loader">
@@ -31,40 +86,39 @@
             <table class="table">
               <thead>
                 <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Name</th>
-                  <th scope="col">DiskSpace</th>
+                  <th scope="col" style="color: white;">#</th>
+                  <th scope="col" style="color: white;">Name</th>
+                  <th scope="col" style="color: white;">Disk Space</th>
                 </tr>
               </thead>
-              <tbody id="candidatesResults">
+              <tbody id="candidatesResults" style="color: white;">
               </tbody>
             </table>
             <hr/>
             <form>
               <div class="form-group">
-                <label for="data">Data to Store: </label>
+                <label for="data" style="color: white;">Data to Store: </label>
                 <input type="text" name="data" id="data">
                 <br>
-                <label for="candidatesSelect">Select Host</label>
+                <label for="candidatesSelect" style="color: white;">Select Host</label>
                 <select class="form-control" id="candidatesSelect">
                 </select>
               </div>
-              <button type="button" class="btn btn-primary" onclick="App.selectHost()">Select</button>
+              <button type="button" class="btn btn-primary" style="background-color: #00ff62; color: white;" onclick="App.selectHost()">Select</button>
               <hr />
             </form>
-            <p id="accountAddress" class="text-center"></p>
+            <p id="accountAddress" class="text-center" style="color: white;"></p>
             <hr/>
-            <br>
-            <br>
-            <table class="table">
+
+            <table class="table" >
               <thead>
                 <tr>
-                  <th scope="col">Data Genhash</th>
-                  <th scope="col">Host Id</th>
-                  <th scope="col">Audit</th>
+                  <th scope="col" style="color: white;">Data Genhash</th>
+                  <th scope="col" style="color: white;">Host Id</th>
+                  <th scope="col" style="color: white;">Audit</th>
                 </tr>
               </thead>
-              <tbody id="dataResults">
+              <tbody id="dataResults" style="color: white;">
               </tbody>
             </table>
           </div>
