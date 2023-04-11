@@ -9,18 +9,26 @@
     <style>
       /* Set the background image */
       body {
-          background-image: url('https://drive.google.com/uc?id=122rsxiyYL5pQ0yfcyGpHmQnks1lf0_LZ');
+          background-image: url('https://drive.google.com/uc?id=1vIGsQGXifJwzTmBVpU3WcRtdovQRArPb');
+
           background-size: cover;
           background-position: center;
           background-attachment: fixed;
           font-family: 'Montserrat', sans-serif;
-          color: white;
+          color:  rgb(18, 92, 157);
           margin: 0;
           padding: 0;
       }
 
       /* Style for the center element */
       .center {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+      }
+      .col-lg-12 {
           display: flex;
           flex-direction: column;
           justify-content: center;
@@ -36,7 +44,7 @@
           border: none;
           border-radius: 5px;
           color: white;
-          background-color: #00ff62;
+          background-color: rgb(18, 92, 157);
           text-decoration: none;
           font-size: 18px;
           font-weight: bold;
@@ -49,7 +57,7 @@
           margin-bottom: 20px;
       }
       h2 {
-          font-size: 48px;
+          font-size: 58px;
           margin-bottom: 20px;
       }
 
@@ -70,33 +78,30 @@
   <body>
     <div class="container" style="width: 350px;">
       <div class="row">
-        <div class="col-lg-12">
+        <div class="col-lg-12" style="background-color: rgb(255, 255, 255); height: 500px; margin-top: 70px; border-radius: 25px;">
           <div id="loader">
             <p class="text-center">Loading...</p>
           </div>
           <div id="content" style="display: none;">
-            <br>
-            <br>
-            <br>
-            <br>
+
             
-            <h2 style="color: white;">Rent Your Storage</h2>
+            <h2 style="color: rgb(18, 92, 157); text-align: center;"><b>Rent Your Storage</b></h2>
 
             <form onSubmit="App.addHost(); return false;">
-              <div class="form-group">
-                <label for="name" style="color: white;">Name:</label><br>
-                <input type="text" id="name" name="name" value="John"><br><br>
-                <label for="port" style="color: white;">Port:</label><br>
-                <input type="text" id="port" name="port" value="12345"><br><br>
-                <label for="ip" style="color: white;">IP:</label><br>
-                <input type="text" id="ip" name="ip" value="127.0.0.1"><br><br>
-                <label for="diskspace" style="color: white;">Disk Space:</label><br>
-                <input type="text" id="diskspace" name="diskspace" value="100"><br><br>
-                <button type="submit" class="btn btn-primary" style="background-color: #00ff62; color: white;">Add Yourself</button>
+              <div class="form-group" style="text-align: center;">
+                <label for="name" style="color: rgb(18, 92, 157); ">Name:</label><br>
+                <input type="text" id="name" name="name" value="John" style="background-color: rgb(18, 92, 157); color:rgb(255, 255, 255)"><br><br>
+                <label for="port" style="color: rgb(18, 92, 157);">Port:</label><br>
+                <input type="text" id="port" name="port" value="12345" style="background-color: rgb(18, 92, 157); color:rgb(255, 255, 255)"><br><br>
+                <label for="ip" style="color: rgb(18, 92, 157);">IP:</label><br>
+                <input type="text" id="ip" name="ip" value="127.0.0.1" style="background-color: rgb(18, 92, 157); color:rgb(255, 255, 255)"><br><br>
+                <label for="diskspace" style="color: rgb(18, 92, 157);">Disk Space:</label><br>
+                <input type="text" id="diskspace" name="diskspace" value="100" style="background-color: rgb(18, 92, 157); color:rgb(255, 255, 255)"><br><br>
+                <button type="submit" class="btn btn-primary" style="background-color:  rgb(18, 92, 157); color:  rgb(255, 255, 255);">Add Yourself</button>
               </div>
             </form> 
             <hr/>
-            <p id="accountAddress" class="text-center" style="color: white;"></p>
+            <p id="accountAddress" class="text-center" style="color: rgb(18, 92, 157)"></p>
           </div>
         </div>
       </div>
