@@ -5,7 +5,65 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Add a Host</title>
+    <title>Host</title>
+    <style>
+      /* Set the background image */
+      body {
+          background-image: url('https://drive.google.com/uc?id=1vIGsQGXifJwzTmBVpU3WcRtdovQRArPb');
+
+          background-size: cover;
+          background-position: center;
+          background-attachment: fixed;
+          font-family: 'Montserrat', sans-serif;
+          color:  rgb(18, 92, 157);
+          margin: 0;
+          padding: 0;
+      }
+
+      /* Style for the center element */
+      .center {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+      }
+      .col-lg-12 {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+      }
+
+      /* Style for the host and client links */
+      a {
+          display: inline-block;
+          padding: 10px;
+          margin: 5px;
+          border: none;
+          border-radius: 5px;
+          color: white;
+          background-color: rgb(18, 92, 157);
+          text-decoration: none;
+          font-size: 18px;
+          font-weight: bold;
+          cursor: pointer;
+      }
+
+      /* Style for the header */
+      h1 {
+          font-size: 48px;
+          margin-bottom: 20px;
+      }
+      h2 {
+          font-size: 58px;
+          margin-bottom: 20px;
+      }
+
+      /* Load the Montserrat font from Google Fonts */
+      @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+  </style>
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -18,30 +76,32 @@
     <![endif]-->
   </head>
   <body>
-    <div class="container" style="width: 650px;">
+    <div class="container" style="width: 350px;">
       <div class="row">
-        <div class="col-lg-12">
+        <div class="col-lg-12" style="background-color: rgb(255, 255, 255); height: 500px; margin-top: 70px; border-radius: 25px;">
           <div id="loader">
             <p class="text-center">Loading...</p>
           </div>
           <div id="content" style="display: none;">
-            <h2>RENT Your Storage</h2>
+
+            
+            <h2 style="color: rgb(18, 92, 157); text-align: center;"><b>Rent Your Storage</b></h2>
 
             <form onSubmit="App.addHost(); return false;">
-              <div class="form-group">
-                <label for="name">Name:</label><br>
-                <input type="text" id="name" name="name" value="John"><br>
-                <label for="port">Port:</label><br>
-                <input type="text" id="port" name="port" value="12345"><br><br>
-                <label for="ip">IP:</label><br>
-                <input type="text" id="ip" name="ip" value="127.0.0.1"><br><br>
-                <label for="diskspace">DiskSpace:</label><br>
-                <input type="text" id="diskspace" name="diskspace" value="100"><br><br>
-                <button type="submit" class="btn btn-primary">Add Yourself</button>
+              <div class="form-group" style="text-align: center;">
+                <label for="name" style="color: rgb(18, 92, 157); ">Name:</label><br>
+                <input type="text" id="name" name="name" value="John" style="background-color: rgb(18, 92, 157); color:rgb(255, 255, 255)"><br><br>
+                <label for="port" style="color: rgb(18, 92, 157);">Port:</label><br>
+                <input type="text" id="port" name="port" value="12345" style="background-color: rgb(18, 92, 157); color:rgb(255, 255, 255)"><br><br>
+                <label for="ip" style="color: rgb(18, 92, 157);">IP:</label><br>
+                <input type="text" id="ip" name="ip" value="127.0.0.1" style="background-color: rgb(18, 92, 157); color:rgb(255, 255, 255)"><br><br>
+                <label for="diskspace" style="color: rgb(18, 92, 157);">Disk Space:</label><br>
+                <input type="text" id="diskspace" name="diskspace" value="100" style="background-color: rgb(18, 92, 157); color:rgb(255, 255, 255)"><br><br>
+                <button type="submit" class="btn btn-primary" style="background-color:  rgb(18, 92, 157); color:  rgb(255, 255, 255);">Add Yourself</button>
               </div>
             </form> 
             <hr/>
-            <p id="accountAddress" class="text-center"></p>
+            <p id="accountAddress" class="text-center" style="color: rgb(18, 92, 157)"></p>
           </div>
         </div>
       </div>

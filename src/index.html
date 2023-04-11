@@ -4,10 +4,65 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CHOOSE YOUR DESITY</title>
+    <title>Home</title>
+    <style>
+        /* Set the background image */
+        body {
+            background-image: url('https://drive.google.com/uc?id=1vIGsQGXifJwzTmBVpU3WcRtdovQRArPb');
+
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            font-family: 'Montserrat', sans-serif;
+            color: rgb(18, 92, 157);
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Style for the center element */
+        .center {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            
+        }
+
+        /* Style for the host and client links */
+        a {
+            display: inline-block;
+            padding: 10px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            color: rgb(255, 255, 255);
+            background-color: rgb(18, 92, 157);
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Style for the header */
+        h1 {
+            font-size: 40px;
+            margin-top: 40px; 
+        }
+
+        /* Load the Montserrat font from Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+    </style>
 </head>
 <body>
-    <a href="host.html"><h1>Host</h1></a>
-    <a href="client.html"><h1>Client</h1></a>
+    <div class="center" >
+        <div class="div" style="background-color: rgb(255, 255, 255); width: 450px; border-radius: 25px; height: 300px; text-align: center;">
+            <h1>Distributed Data Store</h1>
+            <p>Welcome to the Distributed Data Dtore</p>
+            <p>Who are you?</p>
+            <a href="host.html">Host</a><br>
+            <a href="client.html">Client</a>
+        </div>
+    </div>
 </body>
 </html>
