@@ -3,6 +3,7 @@ App = {
   web3Provider: null,
   socket: null,
   contracts: {},
+  crytpo: null,
   auditContracts:[],
   account: '0x0',
   isHost: false,
@@ -39,6 +40,7 @@ App = {
       App.web3Provider = new Web3.providers.HttpProvider('http://localhost:7545');
     }
     web3 = new Web3(App.web3Provider);
+    App.crypto = window.crypto || window.msCrypto;
 
     // Socket initiation
     App.socket = io({ autoConnect: false });
@@ -86,6 +88,13 @@ App = {
 
       App.Datas.push(dataObj);
       console.log(App.Datas)
+
+      var dataResults = $("#dataResults");
+      console.log(App.Datas.length);
+      for (var i=0;i<App.Datas.length;i++) {
+        console.log(App.Datas[i].file);
+        dataResults.append("<tr><th>" + App.Datas[i].dataId + "</th><td>" + App.Datas[i].from + "</td><td>" + App.Datas[i].file + "</td></tr>")
+      }
 
       App.socket.emit("confirm storage", {
         from: App.account,
@@ -257,6 +266,7 @@ App = {
         candidatesSelect.append(candidateOption);
       });
     }
+
     isHost = await storageInstance.methods.isHost(App.account).call(); // check
     if (isHost) {
       $('form').hide();
