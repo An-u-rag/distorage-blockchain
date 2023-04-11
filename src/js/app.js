@@ -3,8 +3,11 @@ App = {
   web3Provider: null,
   socket: null,
   contracts: {},
+  auditContracts:[],
   account: '0x0',
   isHost: false,
+  Datas: [],
+  checkFlag: 0,
 
   init: function() {
     console.log("Init web3")
@@ -36,12 +39,15 @@ App = {
       App.web3Provider = new Web3.providers.HttpProvider('http://localhost:7545');
     }
     web3 = new Web3(App.web3Provider);
-    App.socket = io();
+
+    // Socket initiation
+    App.socket = io({ autoConnect: false });
+
     return App.initContract();
   },
 
   initContract: async function() {
-    const storage = await $.getJSON("Storage.json")
+    const storage = await $.getJSON("Storage.json") 
       // Instantiate a new truffle contract from the artifact
       // App.contracts.Storage = TruffleContract(storage);
     const id = await web3.eth.net.getId()
@@ -53,6 +59,7 @@ App = {
     // Connect provider to interact with contract
     App.listenForEvents();
     console.log("Init Contract")
+    
     return App.render();
   },
 
@@ -61,8 +68,122 @@ App = {
     console.log("Listening")
     const instance = App.contracts.Storage
 
+    App.socket.on("connect_error", (err) => {
+      if (err.message === "invalid address") {
+        console.log("Recheck metamask address, invalid socket connection")
+      }
+    });
+
+    App.socket.on("initiate storage", ({ file, from, dataId, salt }) => {
+      console.log(file, from, dataId, salt)
+
+      // store data in App.
+      let dataObj = {
+        dataId: dataId,
+        file: file,
+        from: from
+      }
+
+      App.Datas.push(dataObj);
+      console.log(App.Datas)
+
+      App.socket.emit("confirm storage", {
+        from: App.account,
+        to: from,
+        confirm: true
+      })
+    });
+
+    App.socket.on("audit sequence start", async ({from, abi, auditAddress}) => {
+      console.log("AUDIT REQUESTED....", auditAddress)
+
+      App.checkFlag = 1
+
+      var auditContract = new web3.eth.Contract(abi, auditAddress)
+      var auditContractObj = {
+        auditContract: auditContract,
+        from: from
+      }
+
+      console.log(auditContract)
+
+      App.curAuditInstance = auditContract
+
+      App.socket.emit("confirm audit sequence start", {
+        from: App.account,
+        to: from,
+        confirm: true
+       })
+
+      App.curAuditInstance.events.initiateAuditEvent({
+        fromBlock:'latest',
+        toBlock:'latest'
+      })
+      .on('data', function(event){
+        console.log("AUDITING....", event)
+        // Calculate the host side hash of data and return it to contract
+        let salt = event.returnValues.salt;
+        let dataId = event.returnValues.dataId;
+  
+        // Index through the Datas for the dataId
+        let data = null
+        console.log(App.Datas)
+        for (let d=0; d<App.Datas.length; d++){
+          console.log(App.Datas[d])
+          console.log("match: ", dataId)
+          if(App.Datas[d].dataId == dataId){
+            data = App.Datas[d];
+            break;
+          }
+        }
+        // Calculate hash
+        console.log("salt", salt)
+        let h_genHash = web3.utils.soliditySha3(data.file, salt)
+  
+        // Call Audit Contract function for checking
+        App.curAuditInstance.methods.checkHash(h_genHash).send({ from: App.account })
+        .on("receipt", (receipt) => {
+          console.log("check hash with hash: ", h_genHash, " with receipt ", receipt)
+        })
+      })
+      .on('error', console.error);
+
+    })
+    
+    
+
+    // for (let i=0; i< App.auditContracts.length; i++){
+    //   curAuditInstance = App.auditContracts[i].auditContract;
+
+    //   curAuditInstance.events.initiateAuditEvent({
+    //     fromBlock:'latest',
+    //     toBlock:'latest'
+    //   })
+    //   .on('data', function(event){
+    //     console.log("AUDITING....", event)
+    //     // Calculate the host side hash of data and return it to contract
+    //     let salt = event.returnValues.salt;
+    //     let dataId = event.returnValues.dataId;
+
+    //     // Index through the Datas for the dataId
+    //     let data = null
+    //     for (let d=0; d<Datas.length; d++){
+    //       if(App.Datas[d].dataId == dataId){
+    //         data = App.Datas[d];
+    //         break;
+    //       }
+    //     }
+    //     // Calculate hash
+    //     let h_genHash = web3.utils.soliditySha3(data.file, salt)
+
+    //     // Call Audit Contract function for checking
+    //     curAuditInstance.methods.checkHash(h_genHash).send({ from: App.account })
+    //   })
+    //   .on('error', console.error);
+    // }
+
     instance.events.addHostEvent({
-      fromBlock: 0,
+      fromBlock: 'latest',
       toBlock: 'latest'
     })
     .on('data', function(event){
@@ -102,6 +223,10 @@ App = {
       if (err === null) {
         App.account = account;
         $("#accountAddress").html("Your Account: " + account);
+        // Manually call conenct event for socket
+        console.log("Curr: ", account)
+        App.socket.auth = { address: account };
+        App.socket.connect();
       }
     });
 
