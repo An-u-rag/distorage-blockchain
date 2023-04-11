@@ -90,14 +90,11 @@ App = {
       console.log(App.Datas)
 
       var dataResults = $("#dataResults");
-      // dataResults.empty();
       console.log(App.Datas.length);
       for (var i=0;i<App.Datas.length;i++) {
         console.log(App.Datas[i].file);
         dataResults.append("<tr><th>" + App.Datas[i].dataId + "</th><td>" + App.Datas[i].from + "</td><td>" + App.Datas[i].file + "</td></tr>")
       }
-
-      // App.render();
 
       App.socket.emit("confirm storage", {
         from: App.account,
@@ -269,18 +266,6 @@ App = {
         candidatesSelect.append(candidateOption);
       });
     }
-
-    // storedDataCount = App.Datas.length;
-    // console.log("storedDatacount", storedDataCount);
-    // if(storedDataCount > 0) {
-    //   var dataResults = $("#dataResults");
-    //   dataResults.empty();
-
-    //   for (var i=0;i<storedDataCount;i++) {
-    //     console.log(App.Datas[i].file);
-    //     dataResults.append("<tr><th>" + App.Datas[i].dataId + "</th><td>" + App.Datas[i].from + "</td><td>" + App.Datas[i].file + "</td></tr>")
-    //   }
-    // }
 
     isHost = await storageInstance.methods.isHost(App.account).call(); // check
     if (isHost) {
