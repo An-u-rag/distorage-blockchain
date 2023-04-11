@@ -252,6 +252,7 @@ App = {
       //const salty = App.crypto.randomUUID();
       const salty = Math.floor(Math.random() * 100)
       console.log("salt", salty)
+
       const genHash = web3.utils.soliditySha3(App.data, salty);
       const size = App.data.length;
       const interval = 60;
