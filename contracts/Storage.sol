@@ -20,22 +20,24 @@ contract Storage {
         address hostAddress;
         uint auditInterval;
         uint size;
-        string salt;
+        uint salt;
+        uint dataId;
     }
 
     mapping(uint => Host) public hosts;
     mapping(address => bool) public isHost;
     mapping(address => uint) public clientDataCount;
-    mapping(address => bytes32[]) public clientDataMap;
-    mapping(bytes32 => Data) public datas;
-    mapping(bytes32 => Host) private dataToHost; // since the mapping is one-to-many between host and data.
+    mapping(address => uint[]) public clientDataMap;
+    mapping(uint => Data) public datas;
+    mapping(uint => bool) public isData;
+    mapping(uint => Host) private dataToHost; // since the mapping is one-to-many between host and data.
     uint public hostCount;
     uint public dataCount;
     
     constructor () {
     }
 
-    function getClientData(address addr, uint index) public view returns(bytes32){
+    function getClientData(address addr, uint index) public view returns(uint){
         return clientDataMap[addr][index];
     }
 
@@ -55,30 +57,38 @@ contract Storage {
         hostCount ++;
     }
 
+    function confirmStorage(address payable _to, uint256 amount) external payable{
+        (bool success, ) = _to.call{value: amount}("");
+        require(success, "transaction failed");
+    }
+
     event initiateStorageEvent(
-        uint indexed hostId,
+        address indexed hostId,
         address clientAddress,
         uint remainingHostDiskspace,
-        uint indexed interval,
-        string indexed salt
+        uint indexed dataId,
+        uint interval,
+        uint indexed salty
     );
 
     // TO initiate storage of a file from client to host
     // lochash - hash of Host ip, port, and name
     // genHash - Hash of the encrypted file
     // salt - salt of the hashing function 
-    function initiateStorage (uint id, bytes32 genHash, uint size, uint interval, string memory salt) public {
+    function initiateStorage (uint id, bytes32 genHash, uint size, uint interval, uint salty) public payable {
         // Overall datacount update
         require(!isHost[msg.sender]);
         require(isHost[hosts[id].myAddress]);
         require(size <= hosts[id].diskspace);
         // Now that we get the input, we have to emit an event which is used as a check for socket transmission
 
+        uint dataid = dataCount;
+
         // Create a Data Instance
-        datas[genHash] = Data(genHash, msg.sender, hosts[id].myAddress, interval, size, salt);
+        datas[dataid] = Data(genHash, msg.sender, hosts[id].myAddress, interval, size, salty, dataid);
 
         // Link Data to Host
-        dataToHost[genHash] = hosts[id];
+        dataToHost[dataid] = hosts[id];
 
         // Update diskspace and dataCount of host
         hosts[id].diskspace -= size;
@@ -86,8 +96,8 @@ contract Storage {
 
         dataCount ++;
         clientDataCount[msg.sender] += 1;
-        clientDataMap[msg.sender].push(genHash);
-        emit initiateStorageEvent(id, msg.sender, hosts[id].diskspace, interval, salt);
+        clientDataMap[msg.sender].push(dataid);
+        emit initiateStorageEvent(hosts[id].myAddress, msg.sender, hosts[id].diskspace, dataid, interval, salty);
     } 
 
 }
